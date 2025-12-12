@@ -1,0 +1,11 @@
+import os
+
+S3_BUCKET = os.getenv("S3_BUCKET")
+LOCAL_TEST_FILE = os.getenv("LOCAL_TEST_FILE")
+
+SNOW_ACCOUNT = os.getenv("SNOW_ACCOUNT")
+SNOW_USER = os.getenv("SNOW_USER")
+SNOW_PASSWORD = os.getenv("SNOW_PASSWORD")
+SNOW_WAREHOUSE = os.getenv("SNOW_WAREHOUSE")
+SNOW_DATABASE = os.getenv("SNOW_DATABASE")
+SNOW_SCHEMA = os.getenv("SNOW_SCHEMA")
