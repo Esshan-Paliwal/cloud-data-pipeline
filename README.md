@@ -1,64 +1,48 @@
-# Cloud Data Pipeline: Local CSV → Python ETL → Snowflake → Dashboard
+# Cloud Data Pipeline: Local CSV to Snowflake with Python ETL and Dashboard
 
-This project implements an end-to-end cloud data pipeline using:
-
-- Python (ETL)
-- Snowflake (Cloud Data Warehouse)
-- GitHub Actions (CI for tests)
-- Docker (reproducible environment)
-- Streamlit (Analytics Dashboard)
-
-The pipeline loads movie rating data from a CSV file, cleans it, and loads it into Snowflake for analytics and reporting.
+This project implements a complete data pipeline that extracts movie rating data from a CSV file, performs data cleaning and validation using Python, and loads the curated dataset into Snowflake. The repository also includes automated testing using GitHub Actions, a Docker configuration for reproducible execution, and a Streamlit dashboard for basic analytics.
 
 ---
 
 ## 1. Architecture Overview
 
-Local CSV → Python ETL → Clean DataFrame → Snowflake Table → Streamlit Dashboard
+Pipeline flow:
+
+Local CSV File → Python ETL → Cleaned DataFrame → Snowflake Table → Streamlit Dashboard
 
 yaml
 Copy code
 
-### Components:
-- **ETL Layer**: `src/etl.py`
-- **Cleaning Functions**: `src/cleaning.py`
-- **Snowflake Utility Functions**: `src/snowflake_utils.py`
-- **Tests**: `tests/`
-- **CI Pipeline**: GitHub Actions workflow
-- **Dashboard**: `dashboard/app.py`
+Key components:
+- ETL workflow (`src/etl.py`)
+- Data cleaning logic (`src/cleaning.py`)
+- Snowflake utility functions (`src/snowflake_utils.py`)
+- Test suite (`tests/`)
+- Continuous Integration workflow (`.github/workflows/`)
+- Dashboard application (`dashboard/app.py`)
 
 ---
 
 ## 2. Features
 
-### ✔ End-to-end working ETL  
-Reads CSV → cleans → loads into Snowflake table.
-
-### ✔ Modular & scalable project structure  
-Industry-style `src/`, `tests/`, `configs/`.
-
-### ✔ Snowflake warehouse + database integration  
-Automatically selects the correct warehouse, database, and schema.
-
-### ✔ GitHub Actions CI  
-Runs tests on every push.
-
-### ✔ Docker Support  
-Reproducible environment.
-
-### ✔ Streamlit Dashboard  
-Visualizes movie rating data stored in Snowflake.
+- End-to-end ETL pipeline that loads structured data into Snowflake.
+- Modular project structure suitable for production-oriented development.
+- Automated unit testing using pytest.
+- Continuous Integration configured through GitHub Actions.
+- Optional Docker support for consistent runtime environments.
+- Streamlit dashboard for exploratory data analysis.
 
 ---
 
-## 3. Tech Stack
+## 3. Technology Stack
 
 - Python 3.11+
 - Pandas
 - Snowflake Python Connector
-- pytest
+- Pytest
 - Docker
 - Streamlit
+- GitHub Actions
 
 ---
 
@@ -69,76 +53,103 @@ Visualizes movie rating data stored in Snowflake.
 ```bash
 git clone https://github.com/<your-username>/cloud-data-pipeline.git
 cd cloud-data-pipeline
-4.2 Create virtual environment
+4.2 Create and activate a virtual environment
 bash
 Copy code
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-4.3 Create .env file
+4.3 Configure environment variables
+Create a .env file in the project root:
+
 ini
 Copy code
 SNOW_ACCOUNT=sn47334.ap-south-1.aws
-SNOW_USER=<your-username>
-SNOW_PASSWORD=<your-password>
+SNOW_USER=<your_snowflake_username>
+SNOW_PASSWORD=<your_snowflake_password>
 SNOW_DATABASE=MOVIES_DB
 SNOW_SCHEMA=PUBLIC
 SNOW_WAREHOUSE=COMPUTE_WH
 SNOW_ROLE=ACCOUNTADMIN
-
 5. Running the ETL Pipeline
+Use the following command to run the ETL job:
+
 bash
 Copy code
 python3 src/etl.py
-Expected output:
+Expected behavior:
 
-vbnet
+The CSV file is loaded.
+
+Data is cleaned and validated.
+
+The output dataset is loaded into Snowflake.
+
+A successful run prints:
+
+nginx
 Copy code
-ETL: Starting pipeline...
-Cleaning data...
-Loading into Snowflake...
 ETL completed successfully.
-6. Running Tests (GitHub Actions)
-Locally:
+6. Testing and Continuous Integration
+Run tests locally:
 
 bash
 Copy code
 pytest -q
-CI automatically runs tests on GitHub for every push/PR.
+GitHub Actions automatically executes tests on every commit or pull request to maintain code quality.
 
-7. Docker (Optional)
-Build:
+7. Docker Support (Optional)
+Build the Docker image:
 
 bash
 Copy code
 docker build -t movie-etl .
-Run:
+Run the container:
 
 bash
 Copy code
 docker run movie-etl
 8. Streamlit Dashboard
-Run dashboard locally:
+The dashboard visualizes the loaded data from Snowflake, including distributions of ratings and basic aggregations.
+
+Launch the dashboard:
+
 bash
 Copy code
 streamlit run dashboard/app.py
-Dashboard features:
+9. Potential Enhancements
+Add workflow scheduling using Airflow or Prefect.
 
-Data preview
+Integrate with Amazon S3 for cloud-based file ingestion.
 
-Rating distribution
+Add dbt for Snowflake transformations.
 
-Top movies by rating count
+Deploy the Streamlit dashboard as a managed web application.
 
-9. Future Improvements
-Add Airflow / Prefect orchestration
+Implement incremental loads and auditing features.
 
-Add S3 ingestion
-
-Add dbt transformation layer
-
-Deploy Streamlit dashboard online
-
-Add user-level analytics
-
-End of README
+10. Repository Structure
+arduino
+Copy code
+cloud-data-pipeline/
+│
+├── src/
+│   ├── etl.py
+│   ├── cleaning.py
+│   ├── snowflake_utils.py
+│   └── config.py
+│
+├── tests/
+│   └── test_cleaning.py
+│
+├── dashboard/
+│   └── app.py
+│
+├── .github/workflows/
+│   └── ci.yml
+│
+├── Dockerfile
+├── requirements.txt
+├── sample_movie_ratings.csv
+└── README.md
+End of documentation.
